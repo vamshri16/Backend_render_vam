@@ -1,0 +1,14 @@
+# Use a slim JRE image (ok to use openjdk:17-jdk-alpine if you prefer)
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+# adjust the JAR name to match exactly what you produce in target/
+COPY target/pamtenproject-0.0.1-SNAPSHOT.jar app.jar
+
+# Render provides PORT. Default to 8080 when running locally.
+ENV PORT=8080
+EXPOSE 8080
+
+# For Spring Boot, this tells it to bind to Render's PORT
+CMD ["sh","-c","java -jar app.jar --server.port=${PORT:-8080}"]
